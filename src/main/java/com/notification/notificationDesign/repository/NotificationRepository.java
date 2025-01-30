@@ -16,22 +16,14 @@ public interface NotificationRepository extends JpaRepository<Notification,Long>
 
  @Query("SELECT n.message FROM Notification n WHERE n.customer.id = :customerId")
  List<String> findMessageByCustomerId(@Param("customerId") long customerId);
-//
-// @Query(value = "SELECT u.message FROM notification u WHERE " +
-//         "(:customer_id IS NULL OR u.customer_id = :customer_id) AND " +
-//         "(:created_at IS NULL OR u.created_at = :created_at) AND " +
-//         "(:notification_type IS NULL OR u.notification_type = :notification_type)",
-//         nativeQuery = true)
-// List<String> findMessagesByIdOrDateOrType(@Param("customer_id") Long customerId,
-//                                           @Param("created_at") LocalDateTime createdAt,
-//                                           @Param("notification_type") String notificationType);
 
  @Query(value = "SELECT u.message FROM notification u WHERE " +
          "(:customer_id IS NULL OR u.customer_id = :customer_id) AND " +
          "(:created_at IS NULL OR u.created_at = :created_at) AND " +
-         "(:notification_type IS NULL OR u.notification_type = :notification_type)", nativeQuery = true)
+         "(:notification_type IS NULL OR u.notification_type = :notification_type)",
+         nativeQuery = true)
  List<String> findMessagesByIdOrDateOrType(@Param("customer_id") Long customerId,
                                            @Param("created_at") LocalDateTime createdAt,
-                                           @Param("notification_type") NotificationType notificationType);
-
+                                           @Param("notification_type") String notificationType);
 }
+

@@ -17,11 +17,12 @@ import java.util.List;
 @RestController
 @RequestMapping("/notification")
 public class NotificationController {
+
     @Autowired
     private NotificationService notificationService;
 
     @PostMapping("/send")
-    public ResponseEntity<String> sendNotification(@RequestBody Notification notification) {
+    public ResponseEntity<String> sendNotification(@RequestBody Notification notification) throws Exception {
         notificationService.sendNotification(
                 notification.getGarage().getId(),
                 notification.getCustomer().getId(),

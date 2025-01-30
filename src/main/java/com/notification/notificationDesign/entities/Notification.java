@@ -1,5 +1,6 @@
 package com.notification.notificationDesign.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.notification.notificationDesign.constant.NotificationType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

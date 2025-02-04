@@ -1,6 +1,6 @@
 package com.notification.notificationDesign.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.notification.notificationDesign.constant.NotificationChannel;
 import com.notification.notificationDesign.constant.NotificationType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -27,6 +27,9 @@ public class Notification {
 
     @Enumerated(EnumType.STRING)
     private NotificationType notificationType;
+
+    @Enumerated(EnumType.STRING)
+    private NotificationChannel channel;
 
     private String message;
     private LocalDateTime createdAt = LocalDateTime.now();

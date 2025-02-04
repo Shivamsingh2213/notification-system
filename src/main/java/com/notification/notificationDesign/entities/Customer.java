@@ -17,10 +17,19 @@ public class Customer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
     private String email;
     private String mobileNo;
-    private boolean isSubscribed=true;
+    private String name;
+    private String whatsappNo;
+    @Column(columnDefinition = "BOOLEAN")
+    private boolean smsSubscribed = false;
+
+    @Column(columnDefinition = "BOOLEAN")
+    private boolean emailSubscribed = true;
+
+    @Column(columnDefinition = "BOOLEAN")
+    private boolean whatsappSubscribed = true;
+    private String country;
 
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnore

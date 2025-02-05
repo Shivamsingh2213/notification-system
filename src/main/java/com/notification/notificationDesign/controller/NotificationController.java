@@ -50,8 +50,8 @@ public class NotificationController {
 
 
     @GetMapping("/fetch")
-    public ResponseEntity<List<Notification>> getNotificationByMobileNo(@RequestParam(value = "mobileNo") String mobileNo) {
-        List<Notification> msg = notificationService.getMessage(mobileNo);
+    public ResponseEntity<List<Notification>> getNotificationByMobileNo(@RequestParam(value = "mobileNo") String mobileNo,@RequestParam(value = "type") NotificationType type) {
+        List<Notification> msg = notificationService.getMessage(mobileNo, type);
         if (msg == null || msg.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Collections.emptyList());
         }
@@ -90,5 +90,6 @@ public class NotificationController {
         Page<Notification> notifications = notificationService.getNotifications(pageNo, pageSize);
         return ResponseEntity.ok(notifications);
     }
+
 
 }

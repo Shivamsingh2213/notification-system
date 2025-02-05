@@ -29,8 +29,8 @@ public interface NotificationRepository extends JpaRepository<Notification,Long>
  @Query("SELECT n.message FROM Notification n WHERE n.customer.id = :customerId")
  List<String> findMessageByCustomerId(@Param("customerId") long customerId);
 
- @Query("SELECT n FROM Notification n WHERE n.customer.id = :customerId")
- List<Notification> findNotificationByCustomerId(@Param("customerId") long customerId);
+ @Query("SELECT n FROM Notification n WHERE n.customer.id = :customerId AND n.notificationType = :notificationType")
+ List<Notification> findNotificationByCustomerIdAndNotificationType(@Param("customerId") long customerId,@Param("notificationType") NotificationType notificationType);
 
 
 // @Query(value = "SELECT u.message FROM notification u WHERE " +

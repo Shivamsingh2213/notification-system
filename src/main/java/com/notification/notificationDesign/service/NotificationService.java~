@@ -157,17 +157,14 @@ public class NotificationService {
     }
 
 
-    public List<Notification> getMessage(String mobileNo, NotificationType type) {
-        if (type == null) {
-            System.out.println("Notification type not found, so sending all messages");
-        }
+    public List<Notification> getMessage(String mobileNo) {
         Customer user = customerRepository.findByMobileNo(mobileNo);
         if (user == null) {
             System.out.println("Customer not found for mobile number: " + mobileNo);
             return Collections.emptyList();
         }
 
-        List<Notification> notifications = notificationRepository.findNotificationByCustomerIdAndNotificationType(user.getId(),type);
+        List<Notification> notifications = notificationRepository.findNotificationByCustomerId(user.getId());
 
         if (notifications.isEmpty()) {
             System.out.println("No messages found for customer ID: " + user.getId());

@@ -7,6 +7,6 @@ public enum NotificationChannel {
 
 
     public String toUpperCase() {
-        return name().toUpperCase();
+        return name().toUpperCase();    
     }
 }

@@ -59,16 +59,18 @@ public class NotificationController {
     public ResponseEntity<List<Notification>> getNotificationByMobileNoAndType(
             @RequestParam(value = "mobileNo") String mobileNo,
             @RequestParam(value = "type") NotificationType type,
-            @RequestParam(value = "pageNumber", defaultValue = "0") int pageNumber,
-            @RequestParam(value = "pageSize", defaultValue = "5") int pageSize
+            @RequestParam(value = "pageNumber", defaultValue = "0") int pageNumber,  // Default to page 0
+            @RequestParam(value = "pageSize", defaultValue = "10") int pageSize       // Default to 10 items per page
     ) {
         // Fetch paginated notifications from service
         List<Notification> msg = notificationService.getMessage(mobileNo, type, pageNumber, pageSize);
 
+        // If no notifications are found, return a NOT_FOUND status with an empty list
         if (msg == null || msg.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Collections.emptyList());
         }
 
+        // Return paginated notifications in the response
         return ResponseEntity.ok(msg);
     }
 

@@ -37,6 +37,7 @@ public interface NotificationRepository extends JpaRepository<Notification,Long>
  );
 
 
+
 // @Query(value = "SELECT u.message FROM notification u WHERE " +
 //         "(:customer_id IS NULL OR u.customer_id = :customer_id) AND " +
 //         "(:notification_type IS NULL OR u.notification_type = :notification_type) AND " +

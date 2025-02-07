@@ -10,4 +10,5 @@ import org.springframework.stereotype.Repository;
 public interface CustomerRepository extends JpaRepository<Customer, Long> {
     Customer findByMobileNo(@Param(value="mobile_no") String mobileNo);
 
+    Customer findByEmail(@Param(value="email") String email);
 }

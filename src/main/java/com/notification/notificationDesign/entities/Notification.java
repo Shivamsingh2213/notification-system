@@ -30,11 +30,7 @@ public class Notification {
     @Enumerated(EnumType.STRING)
     private NotificationType notificationType;
 
-    @ElementCollection(targetClass = NotificationChannel.class, fetch = FetchType.EAGER)
-    @CollectionTable(name = "notification_channels", joinColumns = @JoinColumn(name = "notification_id"))
-    @Column(name = "channel")
-    @Enumerated(EnumType.STRING)
-    private Set<NotificationChannel> channels;
+    private String channels;
 
 
     private String message;

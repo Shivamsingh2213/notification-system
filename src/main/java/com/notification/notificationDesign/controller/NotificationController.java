@@ -2,7 +2,11 @@ package com.notification.notificationDesign.controller;
 
 import com.notification.notificationDesign.constant.NotificationChannel;
 import com.notification.notificationDesign.constant.NotificationType;
+import com.notification.notificationDesign.entities.Customer;
+import com.notification.notificationDesign.entities.EmailData;
 import com.notification.notificationDesign.entities.Notification;
+import com.notification.notificationDesign.service.CustomerService;
+import com.notification.notificationDesign.service.EmailSender;
 import com.notification.notificationDesign.service.NotificationService;
 import org.hibernate.jpa.internal.util.PessimisticNumberParser;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,10 +20,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
-import java.util.Collections;
-import java.util.EnumSet;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
@@ -29,30 +30,47 @@ public class NotificationController {
     @Autowired
     private NotificationService notificationService;
 
-    @Async
-    @PostMapping("/send")
-    public ResponseEntity<String> sendNotification(@RequestBody Notification request) throws Exception {
-        // Convert List<String> to EnumSet<NotificationChannel>
-        EnumSet<NotificationChannel> channels = request.getChannels().stream()
-                .map(channel -> {
-                    try {
-                        return NotificationChannel.valueOf(channel.toUpperCase());
-                    } catch (IllegalArgumentException e) {
-                        throw new RuntimeException("Invalid channel: " + channel);
-                    }
-                })
-                .collect(Collectors.toCollection(() -> EnumSet.noneOf(NotificationChannel.class)));
+    @Autowired
+    private EmailSender emailSender;
 
-        notificationService.sendNotification(
-                request.getCustomer().getId(),
-                request.getGarage().getId(),
-                request.getMessage(),
-                request.getNotificationType(),
-                channels
-        );
+    @Autowired
+    private CustomerService customerService;
 
-        return ResponseEntity.ok("Notification sent successfully!");
+
+@Async
+ @PostMapping("/send")
+    public ResponseEntity<String> sendEmail(@RequestBody EmailData emailData) {
+        String response = emailSender.sendEmail(emailData);
+        return ResponseEntity.ok(response);
     }
+
+
+//    @Async
+//    @PostMapping("/send")
+//    public ResponseEntity<String> sendNotification(@RequestBody Notification request) throws Exception {
+//        // Convert List<String> to EnumSet<NotificationChannel>
+//        EnumSet<NotificationChannel> channels = request.getChannels().stream()
+//                .map(channel -> {
+//                    try {
+//                        return NotificationChannel.valueOf(channel.toUpperCase());
+//                    } catch (IllegalArgumentException e) {
+//                        throw new RuntimeException("Invalid channel: " + channel);
+//                    }
+//                })
+//                .collect(Collectors.toCollection(() -> EnumSet.noneOf(NotificationChannel.class)));
+//
+//        notificationService.sendNotification(
+//                request.getCustomer().getId(),
+//                request.getGarage().getId(),
+//                request.getMessage(),
+//                request.getNotificationType(),
+//                channels
+//        );
+//
+//        return ResponseEntity.ok("Notification sent successfully!");
+//    }
+
+
 
 
     @GetMapping("/notification-by-TypeAndMobileNo")

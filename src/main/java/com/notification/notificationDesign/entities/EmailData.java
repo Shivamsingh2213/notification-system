@@ -19,7 +19,7 @@ public class EmailData {
     private String name;
     private String to_email;
     private String message;
-    private LocalDateTime date;
+   // private LocalDateTime date;
 
 
 }

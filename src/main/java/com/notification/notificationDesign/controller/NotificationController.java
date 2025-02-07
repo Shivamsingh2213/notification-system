@@ -39,8 +39,8 @@ public class NotificationController {
 
 @Async
  @PostMapping("/send")
-    public ResponseEntity<String> sendEmail(@RequestBody EmailData emailData) {
-        String response = emailSender.sendEmail(emailData);
+    public ResponseEntity<String> sendEmail(@RequestBody Notification notification) {
+        String response = emailSender.sendEmail(notification);
         return ResponseEntity.ok(response);
     }
 

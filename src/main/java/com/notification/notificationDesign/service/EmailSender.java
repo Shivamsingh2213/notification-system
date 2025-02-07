@@ -1,6 +1,7 @@
 package com.notification.notificationDesign.service;
 
 import com.notification.notificationDesign.entities.EmailData;
+import com.notification.notificationDesign.entities.Notification;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -19,12 +20,12 @@ public class EmailSender {
         this.restTemplate = restTemplate;
     }
 
-    public String sendEmail(EmailData emailData) {
+    public String sendEmail(Notification notification) {
 
             HttpHeaders headers = new HttpHeaders();
             headers.set("Content-Type", "application/json");
 
-            HttpEntity<EmailData> requestEntity = new HttpEntity<>(emailData, headers);
+            HttpEntity<Notification> requestEntity = new HttpEntity<>(notification, headers);
 
             ResponseEntity<String> response = restTemplate.exchange(
                     URL,

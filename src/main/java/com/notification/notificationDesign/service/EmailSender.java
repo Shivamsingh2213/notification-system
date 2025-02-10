@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -23,19 +24,19 @@ public class EmailSender {
 
     public EmailData sendEmail(EmailData emailData) {
 
-            HttpHeaders headers = new HttpHeaders();
-            headers.set("Content-Type", "application/json");
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Content-Type", "application/json");
 
-            HttpEntity<EmailData> requestEntity = new HttpEntity<>(emailData, headers);
+        HttpEntity<EmailData> requestEntity = new HttpEntity<>(emailData, headers);
 
-            ResponseEntity<EmailData> response = restTemplate.exchange(
-                    URL,
-                    HttpMethod.POST,
-                    requestEntity,
-                    EmailData.class
-            );
+        ResponseEntity<EmailData> response = restTemplate.exchange(
+                URL,
+                HttpMethod.POST,
+                requestEntity,
+                EmailData.class
+        );
 
-           // return response.getBody();
+        // return response.getBody();
         EmailData responseData = response.getBody();
 
         if (responseData != null) {
@@ -48,27 +49,63 @@ public class EmailSender {
 
     }
 
-    public List<EmailData> getAllEmails() {
-        ResponseEntity<EmailData[]> response = restTemplate.exchange(
-                URL,
-                HttpMethod.GET,
-                null,
-                EmailData[].class
-        );
+//    public List<EmailData> getAllEmails() {
+//        ResponseEntity<EmailData[]> response = restTemplate.exchange(
+//                URL,
+//                HttpMethod.GET,
+//                null,
+//                EmailData[].class
+//        );
+//
+//        return List.of(response.getBody());
+//    }
+//
+//
+//    public EmailData getEmailById(String id) {
+//        String emailUrl = URL + "/" + id;
+//        ResponseEntity<EmailData> response = restTemplate.exchange(
+//                emailUrl,
+//                HttpMethod.GET,
+//                null,
+//                EmailData.class
+//        );
+//
+//        return response.getBody();
+//    }
 
-        return List.of(response.getBody());
-    }
+    public Object getEmails(String id) {
 
+        if (id == null || id.isEmpty()) {
+            ResponseEntity<EmailData[]> response = restTemplate.exchange(
+                    URL,
+                    HttpMethod.GET,
+                    null,
+                    EmailData[].class
+            );
 
-    public EmailData getEmailById(String id) {
-        String emailUrl = URL + "/" + id;
-        ResponseEntity<EmailData> response = restTemplate.exchange(
-                emailUrl,
-                HttpMethod.GET,
-                null,
-                EmailData.class
-        );
+            EmailData[] emails = response.getBody();
+            if (emails == null || emails.length == 0) {
+                System.out.println("No emails found.");
+                return List.of();
+            }
+            System.out.println("Fetched all emails: " + Arrays.toString(emails));
+            return Arrays.asList(emails);
+        } else {
+            ResponseEntity<EmailData> response = restTemplate.exchange(
+                    URL + "/" + id,
+                    HttpMethod.GET,
+                    null,
+                    EmailData.class
+            );
 
-        return response.getBody();
+            EmailData email = response.getBody();
+            if (email == null) {
+                System.out.println("No email found for ID: " + id);
+                return null;
+            }
+            System.out.println("Fetched email with ID " + id + ": " + email);
+            return email;
+        }
+
     }
 }

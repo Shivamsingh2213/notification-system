@@ -44,16 +44,21 @@ public class NotificationController {
         return ResponseEntity.ok(response);
     }
 //get api for email data
-    @GetMapping("/receive")
-    public ResponseEntity<List<EmailData>> getAllEmails() {
-        List<EmailData> emails = emailSender.getAllEmails();
-        return ResponseEntity.ok(emails);
-    }
-    @GetMapping("/receive/{id}")
-    public ResponseEntity<EmailData> getEmailById(@PathVariable String id) {
-        EmailData email = emailSender.getEmailById(id);
-        return ResponseEntity.ok(email);
-    }
+//    @GetMapping("/receive")
+//    public ResponseEntity<List<EmailData>> getAllEmails() {
+//        List<EmailData> emails = emailSender.getAllEmails();
+//        return ResponseEntity.ok(emails);
+//    }
+//    @GetMapping("/receive/{id}")
+//    public ResponseEntity<EmailData> getEmailById(@PathVariable String id) {
+//        EmailData email = emailSender.getEmailById(id);
+//        return ResponseEntity.ok(email);
+//    }
+@GetMapping("/receive")
+public ResponseEntity<Object> getEmails(@RequestParam(required = false) String id) {
+    Object emails = emailSender.getEmails(id);
+    return ResponseEntity.ok(emails);
+}
 
 
 //    @Async

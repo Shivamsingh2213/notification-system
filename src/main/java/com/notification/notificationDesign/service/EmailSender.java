@@ -35,7 +35,40 @@ public class EmailSender {
                     EmailData.class
             );
 
-            return response.getBody();
+           // return response.getBody();
+        EmailData responseData = response.getBody();
 
+        if (responseData != null) {
+            System.out.println("Email sent successfully. Received ID: " + responseData.getId());
+        } else {
+            System.out.println("Failed to send email. No ID received.");
+        }
+
+        return responseData;
+
+    }
+
+    public List<EmailData> getAllEmails() {
+        ResponseEntity<EmailData[]> response = restTemplate.exchange(
+                URL,
+                HttpMethod.GET,
+                null,
+                EmailData[].class
+        );
+
+        return List.of(response.getBody());
+    }
+
+
+    public EmailData getEmailById(String id) {
+        String emailUrl = URL + "/" + id;
+        ResponseEntity<EmailData> response = restTemplate.exchange(
+                emailUrl,
+                HttpMethod.GET,
+                null,
+                EmailData.class
+        );
+
+        return response.getBody();
     }
 }
